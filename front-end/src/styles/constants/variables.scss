@@ -6,6 +6,8 @@ $width-xs: 320px;
 $width-s: 480px;
 $width-md: 768px;
 $width-lg: 1024px;
+$width-lg-1: 1200px;
+$width-lg-2: 1400px;
 $width-xlg: 1920px;
 
 // Common
@@ -15,6 +17,8 @@ $grid-breakpoints: (
   s: $width-s,
   md: $width-md,
   lg: $width-lg,
+  lg1: $width-lg-1,
+  lg2: $width-lg-2,
   xlg: $width-xlg,
 );
 

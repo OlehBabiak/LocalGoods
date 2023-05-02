@@ -8,10 +8,12 @@ body {
   overflow-x: hidden;
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
 a {
   text-decoration: none;
 }
@@ -69,6 +71,8 @@ a {
 
 .mat-row {
   background-color: #8a8888 !important;
+  align-items: inherit;
+
   .mat-cell {
     font-size: 16px;
     font-weight: normal;
@@ -111,7 +115,7 @@ a {
 
   &__title {
     @include main-text(
-      $font-large0,
+        $font-large0,
       $line-height: 36px,
       $font-weight: $font-weight-900,
       $font-family: $font-source-sans-pro-black

@@ -7,6 +7,13 @@ import { UserState } from '../../../store/user.reducer';
 import { AuthService, CartItem } from '../../../core';
 import { User } from '../../../pages/auth/models/user.model';
 import { AutoUnsubscribe } from '../../utils/decorators';
+import { NAV_ITEMS } from '../../constants/constants';
+
+export interface HeaderNavItem {
+  role: string;
+  routerLink: string;
+  title: string;
+}
 
 @AutoUnsubscribe('authSubs')
 @AutoUnsubscribe('userSubs')
@@ -20,12 +27,12 @@ export class HeaderComponent implements OnInit {
   isUserAuth = false;
   user!: User;
   cartCounter = 0;
+  btnIsHighlighted = false;
+  @ViewChild('menu', { read: ViewContainerRef }) menu!: ViewContainerRef;
+  navItems: HeaderNavItem[] = NAV_ITEMS;
   private authSubs = new Subscription();
   private userSubs = new Subscription();
   private cartSubs = new Subscription();
-  btnIsHighlighted = false;
-
-  @ViewChild('menu', { read: ViewContainerRef }) menu!: ViewContainerRef;
 
   constructor(
     public authService: AuthService,

@@ -1,87 +1,65 @@
-<mat-toolbar class="mat-toolbar">
-  <div class="logo" routerLink="/home">
-    <img src="assets/icons/logo.svg" alt="logo" />
-  </div>
-  <div class="navbar-collapse">
-    <div class="navbar-nav">
-      <ul>
-        <li
-          style="cursor: pointer"
-          routerLinkActive="active"
-          routerLink="/contacts"
-        >
-          <a>Contacts</a>
-        </li>
-        <li
-          style="cursor: pointer"
-          routerLinkActive="active"
-          routerLink="/info"
-        >
-          <a>Info</a>
-        </li>
-        <li
-          *ngIf="isUserAuth && user.role === 'customer'"
-          style="cursor: pointer"
-          routerLinkActive="active"
-          routerLink="/shop"
-        >
-          <a>Shop</a>
-        </li>
-        <li
-          *ngIf="isUserAuth && user.role === 'seller'"
-          routerLinkActive="active"
-          routerLink="/seller-admin-panel"
-        >
-          <a>My Farm</a>
-        </li>
-        <li
-          *ngIf="isUserAuth && user.role === 'seller'"
-          routerLinkActive="active"
-          routerLink="/seller-orders"
-        >
-          <a>Pending Orders</a>
-        </li>
-        <li
-          *ngIf="isUserAuth && user.role === 'customer'"
-          routerLinkActive="active"
-        >
-          <a>My Orders</a>
-        </li>
-      </ul>
+<div class="header">
+  <div class="header__container">
+    <div class="header__logo" routerLink="/home" style="cursor: pointer">
+      <img alt="logo" src="assets/icons/logo.svg"/>
     </div>
-    <div class="navbar-nav navbar-right">
-      <mat-icon
-        [ngClass]="btnIsHighlighted ? 'bump' : ''"
-        [matBadge]="cartCounter"
-        matBadgeColor="warn"
-        style="cursor: pointer; position: relative"
-        routerLink="/cart"
-        *ngIf="isUserAuth && user.role === 'customer'"
-        >shopping_cart</mat-icon
-      >
-      <mat-icon
-        style="cursor: pointer"
-        *ngIf="isUserAuth"
-        [matMenuTriggerFor]="profile"
-        >person_outline</mat-icon
-      >
-      <mat-icon style="cursor: pointer" routerLink="/login" *ngIf="!isUserAuth"
-        >login</mat-icon
-      >
-      <mat-icon
-        style="cursor: pointer"
-        routerLink="/register"
-        *ngIf="!isUserAuth"
-        >lock_open</mat-icon
-      >
-    </div>
-    <div class="burger">
-      <button type="button" class="navbar-toggle" [matMenuTriggerFor]="menu">
-        <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
-      </button>
+    <div class="header__navbar">
+      <div class="header__nav">
+        <ul>
+          <ng-container *ngFor="let navItem of navItems" [ngSwitch]="navItem.role">
+            <li
+              *ngSwitchCase="''"
+              [routerLink]="navItem.routerLink"
+              routerLinkActive="active"
+              style="cursor: pointer"
+            ><a>{{navItem.title}}</a></li>
+            <li
+              *ngSwitchCase="user.role"
+              [routerLink]="navItem.routerLink"
+              routerLinkActive="active"
+              style="cursor: pointer"
+            ><a>{{navItem.title}}</a></li>
+          </ng-container>
+        </ul>
+      </div>
+      <div class="header__nav header__nav--right">
+        <mat-icon
+          *ngIf="isUserAuth && user.role === 'customer'"
+          [matBadge]="cartCounter"
+          [ngClass]="btnIsHighlighted ? 'bump' : ''"
+          matBadgeColor="warn"
+          routerLink="/cart"
+          style="cursor: pointer; position: relative"
+        >shopping_cart
+        </mat-icon
+        >
+        <mat-icon
+          *ngIf="isUserAuth"
+          [matMenuTriggerFor]="profile"
+          style="cursor: pointer"
+        >person_outline
+        </mat-icon
+        >
+        <mat-icon *ngIf="!isUserAuth" routerLink="/login" style="cursor: pointer"
+        >login
+        </mat-icon
+        >
+        <mat-icon
+          *ngIf="!isUserAuth"
+          routerLink="/register"
+          style="cursor: pointer"
+        >lock_open
+        </mat-icon
+        >
+      </div>
+      <div class="header__burger">
+        <button [matMenuTriggerFor]="menu" class="header__navbar-toggle" type="button">
+          <span *ngFor="let iconBar of [1, 2, 3]" class="header__icon-bar"></span>
+        </button>
+      </div>
     </div>
   </div>
-</mat-toolbar>
+</div>
 
 <mat-menu #profile="matMenu">
   <button mat-menu-item>
@@ -92,7 +70,7 @@
     <mat-icon>mail_outline</mat-icon>
     {{ user?.email }}
   </button>
-  <button mat-menu-item style="cursor: pointer" routerLink="private/settings">
+  <button mat-menu-item routerLink="private/settings" style="cursor: pointer">
     <mat-icon>settings</mat-icon>
     Settings
   </button>
@@ -105,34 +83,40 @@
 
 <mat-menu #menu="matMenu">
   <button mat-menu-item routerLink="/home">
-    <mat-icon>home</mat-icon><a>Home</a>
+    <mat-icon>home</mat-icon>
+    <a>Home</a>
   </button>
   <button mat-menu-item routerLink="/contacts">
-    <mat-icon>contacts</mat-icon><a>Contacts</a>
+    <mat-icon>contacts</mat-icon>
+    <a>Contacts</a>
   </button>
   <button mat-menu-item routerLink="/info">
-    <mat-icon>info</mat-icon><a>Info</a>
+    <mat-icon>info</mat-icon>
+    <a>Info</a>
   </button>
   <button
     *ngIf="isUserAuth && user.role === 'customer'"
     mat-menu-item
     routerLink="/shop"
   >
-    <mat-icon>shopping_bag</mat-icon><a>Shop</a>
+    <mat-icon>shopping_bag</mat-icon>
+    <a>Shop</a>
   </button>
   <button
     *ngIf="isUserAuth && user.role === 'seller'"
     mat-menu-item
     routerLink="/seller-admin-panel"
   >
-    <mat-icon>admin_panel_settings</mat-icon><a>My Farm</a>
+    <mat-icon>admin_panel_settings</mat-icon>
+    <a>My Farm</a>
   </button>
   <button
     *ngIf="isUserAuth && user.role === 'seller'"
     mat-menu-item
     routerLink="/seller-orders"
   >
-    <mat-icon>pending_actions</mat-icon><a>Pending Orders</a>
+    <mat-icon>pending_actions</mat-icon>
+    <a>Pending Orders</a>
   </button>
   <button
     *ngIf="isUserAuth && user.role === 'customer'"
@@ -140,27 +124,34 @@
     routerLink="/customer-orders"
   >
     <mat-icon [matBadge]="cartCounter" matBadgeColor="warn"
-      >shopping_basket</mat-icon
-    ><a>My Orders</a>
+    >shopping_basket
+    </mat-icon
+    >
+    <a>My Orders</a>
   </button>
   <button
     *ngIf="isUserAuth && user.role === 'customer'"
     mat-menu-item
     routerLink="/cart"
   >
-    <mat-icon>shopping_cart</mat-icon><a>Cart</a>
+    <mat-icon>shopping_cart</mat-icon>
+    <a>Cart</a>
   </button>
   <button *ngIf="isUserAuth" mat-menu-item routerLink="/private/settings">
-    <mat-icon>settings</mat-icon><a>Settings</a>
+    <mat-icon>settings</mat-icon>
+    <a>Settings</a>
   </button>
   <mat-divider></mat-divider>
   <button *ngIf="isUserAuth" mat-menu-item>
-    <mat-icon>logout</mat-icon><a (click)="onLogout()">Logout</a>
+    <mat-icon>logout</mat-icon>
+    <a (click)="onLogout()">Logout</a>
   </button>
   <button *ngIf="!isUserAuth" mat-menu-item routerLink="/login">
-    <mat-icon>login</mat-icon><a style="cursor: pointer">Login</a>
+    <mat-icon>login</mat-icon>
+    <a style="cursor: pointer">Login</a>
   </button>
   <button *ngIf="!isUserAuth" mat-menu-item routerLink="/register">
-    <mat-icon>lock_open</mat-icon><a style="cursor: pointer">Register</a>
+    <mat-icon>lock_open</mat-icon>
+    <a style="cursor: pointer">Register</a>
   </button>
 </mat-menu>

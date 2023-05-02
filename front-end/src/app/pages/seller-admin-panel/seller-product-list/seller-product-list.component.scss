@@ -27,6 +27,8 @@
     font-family: Verdana, sans-serif;
     border: 1px solid #ddd;
     vertical-align: top;
+    display: flex;
+    justify-content: space-between;
   }
 
   .mat-table mat-header-cell {
@@ -48,9 +50,6 @@
   .mat-mdc-form-field {
     font-size: 14px;
     width: 100%;
-  }
-  .mat-icon {
-    margin-left: 30px;
   }
 }
 
@@ -81,6 +80,7 @@ mat-paginator {
     border: 0;
     vertical-align: middle;
     background-color: #8a8888;
+
     .mat-row {
       .mat-cell {
         display: flex;
