@@ -1,26 +1,49 @@
-<div class="product-detail">
-  <div class="detail-content">
+<div *ngIf="$product | async as product; else loading" class="product-detail">
+  <h2 class="product-detail__title">{{ product.productTitle }} ({{product.productCategory.productCategoryName}})</h2>
+  <div class="product-detail__content">
     <img
-      src="{{ product.imageLink }}"
       alt="{{ product.productTitle }}"
-      class="product-photo"
+      class="product-detail__photo"
+      src="{{ product?.imageLink }}"
     />
-    <div class="detail-content__text">
-      <h2 class="product-title">{{ product.productTitle }}</h2>
-      <p class="product-desc">{{ product.longDescription }}</p>
-      <h3 class="product-price">${{ product.price }}</h3>
-      <div class="product-add__container">
-        <input
-          type="number"
-          name="product-quantity"
-          id="product-quantity-{{ product.id }}"
-          value="1"
-        />
-        <!--call onClickAdd function on a button click and pass product.id and input value-->
-        <button class="product-add" (click)="onClickAdd(product.id)">
-          Add to Cart
-        </button>
+    <div class="product-detail__aside">
+      <div class="product-detail__info">
+        <p class="product-detail__desc">{{ product.longDescription }}</p>
+        <h3 class="product-detail__price">${{ product.price }}</h3>
+        <div class="product-detail__add-container">
+          <input
+            (change)="onChangeQuantity($event)"
+            [value]="quantity"
+            id="product-quantity-{{ product.id }}"
+            matInput
+            min="1"
+            name="product-quantity"
+            type="number"
+          />
+          <!--call onClickAdd function on a button click and pass product.id and input value-->
+          <button (click)="onClickAdd(product)" [disabled]="+quantity < 0" class="product-detail__btn"
+                  mat-raised-button>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+      <div class="product-detail__seller-info">
+        <h2>Seller Info: </h2>
+        <ng-container *ngIf="$dataSource | async as dataSource">
+          <table *ngFor="let data of dataSource" class="product-detail__seller-info-table">
+            <tr>
+              <td>{{data.key}}:</td>
+              <td>{{data.value}}</td>
+            </tr>
+          </table>
+        </ng-container>
+      </div>
+      <div class='product-detail__back-btn'>
+        <button (click)='onGoBack()' class='button btn-primary' mat-raised-button>Go back</button>
       </div>
     </div>
   </div>
 </div>
+<ng-template #loading>
+  <app-loading-spinner></app-loading-spinner>
+</ng-template>

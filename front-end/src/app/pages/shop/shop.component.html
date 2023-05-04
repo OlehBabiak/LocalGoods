@@ -20,11 +20,11 @@
   </div>
 </div>
 <mat-paginator
-  class="mat-paginator-outer-container"
-  [pageSizeOptions]="pageSizeOptions"
   (page)="handlePageEvent($event)"
   [length]="length"
-  [pageSize]="pageSize"
   [pageIndex]="pageIndex"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageSize]="pageSize"
   aria-label="Select page of products"
+  class="mat-paginator-outer-container"
 ></mat-paginator>

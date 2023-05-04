@@ -1,36 +1,37 @@
 @import 'src/styles/constants/index';
 @import 'src/styles/mixins/index';
 
-mat-card {
+.card {
   display: flex;
   flex-direction: column;
-  padding: 15px 40px;
+  padding: 15px;
   align-items: start;
   border-radius: 5px;
   background-color: $gray5;
   color: $graphite;
 
-  mat-card-header {
+  &__header {
     height: 70px;
-
-    .mat-card-title {
-      margin: 0;
-      @include main-text(
-        $font-size: $font-big,
-        $font-weight: $font-weight-800,
-        $line-height: 2,
-        $font-family: $font-source-sans-pro-black
-      );
-    }
-
-    .mat-card-subtitle {
-      margin: 0;
-      @include main-text($font-size: $font-normal);
-      color: $graphite;
-    }
   }
 
-  mat-card-content {
+  &__title {
+    margin: 0;
+
+    @include main-text(
+      $font-size: $font-big,
+      $font-weight: $font-weight-800,
+      $line-height: 2,
+      $font-family: $font-source-sans-pro-black
+    );
+  }
+
+  &__subtitle {
+    margin: 0;
+    @include main-text($font-size: $font-normal);
+    color: $graphite;
+  }
+
+  &__content {
     h3 {
       @include main-text(
         $font-size: $font-medium-plus,
@@ -39,61 +40,110 @@ mat-card {
     }
   }
 
-  .mat-card-image {
-    @include image-size($height: 300px, $width: 300px);
-    margin: 15px 0;
-  }
+  &__image-wrapper {
+    position: relative;
 
-  mat-card-actions {
-    .product-add-container {
-      display: flex;
+    img {
+      @include image-size($height: 300px, $width: 300px);
+      margin: 15px 0;
+      z-index: -10;
+    }
 
-      .product-add-input {
-        width: 3rem;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font: inherit;
-        padding-left: 0.5rem;
-      }
+    .view {
+      visibility: hidden;
+    }
 
-      .product-add-button {
-        background-color: $green;
-        color: $white;
-
-        mat-icon {
-          margin-left: 10px;
-          font-size: 20px;
-        }
-      }
-
-      .product-add-button:hover {
-        color: $green;
-        background-color: $white;
-      }
+    button {
+      top: 95%;
+      margin-left: -50px;
+      display: none;
+      z-index: -1;
     }
   }
 
-  mat-card-footer {
+  &__image-wrapper:hover {
+    .view {
+      align-items: center;
+      background-color: $lime-green;
+      opacity: 0.8;
+      display: flex;
+      justify-content: center;
+      left: 0;
+      top: 0;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      transition: all 0.5s;
+      visibility: visible;
+      z-index: 1;
+    }
+
+    button {
+      display: block;
+      width: 100px;
+      height: 50px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      @include button($background-color: $green);
+      margin-left: -50px;
+      margin-top: -25px;
+      transition: all 0.5s;
+      visibility: visible;
+      z-index: 1;
+    }
+  }
+
+  &__product-add-container {
+    display: flex;
+  }
+
+  &__product-add-input {
+    width: 3rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font: inherit;
+    padding-left: 0.5rem;
+  }
+
+  &__product-add-button {
+    @include button($background-color: $green);
+    cursor: pointer;
+    transition: 0.2s linear;
+    
+    mat-icon {
+      margin-left: 10px;
+      font-size: 20px;
+    }
+  }
+
+  &__product-add-button:hover {
+    color: $green;
+    background-color: $white;
+  }
+
+  &__card-footer {
     display: flex;
     width: 100%;
     justify-content: space-between;
     align-items: end;
     margin: 0;
+  }
 
-    mat-card-content > h3 {
-      @include main-text(
-        $font-size: $font-big,
-        $font-weight: $font-weight-800,
-        $line-height: 2,
-        $font-family: $font-source-sans-pro-black
-      );
-    }
+  &__footer-content > h3 {
+    @include main-text(
+      $font-size: $font-big,
+      $font-weight: $font-weight-800,
+      $line-height: 2,
+      $font-family: $font-source-sans-pro-black
+    );
   }
 
   @include media-breakpoint-between('min', 's') {
     margin: auto 5px 10px 5px;
-    .mat-card-image {
+    &__image-wrapper img {
       @include image-size($width: 100%);
     }
   }
 }
+

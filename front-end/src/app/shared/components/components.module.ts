@@ -5,7 +5,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { SubMenuHeaderComponent } from './sub-menu-header/sub-menu-header.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +22,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatBadgeModule } from '@angular/material/badge';
+import { CartQuantityCalculatorComponent } from './product-card/cart-quantity-calculator/cart-quantity-calculator.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     ProductCardComponent,
     SubMenuHeaderComponent,
     LoadingSpinnerComponent,
+    CartQuantityCalculatorComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +78,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     ReactiveFormsModule,
     FormsModule,
     MatBadgeModule,
+    CartQuantityCalculatorComponent,
   ],
 })
 export class ComponentsModule {}
