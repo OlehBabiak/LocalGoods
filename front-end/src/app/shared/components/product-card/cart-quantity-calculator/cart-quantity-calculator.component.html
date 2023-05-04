@@ -1,0 +1,9 @@
+<div class="product-counter">
+  <button (click)="onDecreaseQuantity()" [disabled]="+quantity < 1" mat-raised-button>
+    <mat-icon>remove</mat-icon>
+  </button>
+  <div class="counter-input">{{quantity}}</div>
+  <button (click)="onIncreaseQuantity()" mat-raised-button>
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

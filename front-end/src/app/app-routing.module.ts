@@ -44,14 +44,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'product/:id',
-    loadChildren: () =>
-      import('./pages/product-detail/product-detail.module').then(
-        (m) => m.ProductDetailModule
-      ),
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'seller-admin-panel',
     loadChildren: () =>
       import('./pages/seller-admin-panel/seller-admin-panel.module').then(

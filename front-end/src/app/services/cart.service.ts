@@ -16,7 +16,9 @@ import { ErrorService } from '../shared/error-handling/error.service';
   providedIn: 'root',
 })
 export class CartService {
+  //масив товарів корзини
   cartContent = new BehaviorSubject<CartItem[]>([]);
+  //об'єкт з масивом товарів та загальною к-стю та сумою
   totalCartQuantity = new BehaviorSubject<null | CartData>(null);
   private cart: CartItem[] = [];
 
@@ -69,6 +71,17 @@ export class CartService {
       .pipe(catchError(this.errorService.handleError));
   }
 
+  removeItemFromCart(id: number) {
+    for (const cart of this.cart) {
+      if (cart.id === id) {
+        const indexInArr = this.cart.indexOf(cart);
+        this.cart.splice(indexInArr, 1);
+      }
+    }
+    this.cartContent.next(this.cart.slice());
+  }
+
+  //змінює к-сть та суму в товарі корзини
   changeQuantity(id: number, newQuantity: number, newAmount: number) {
     this.cart.forEach((item, index) => {
       if (item.product.id === id) {
@@ -80,19 +93,10 @@ export class CartService {
         this.cart.splice(index, 1);
       }
     });
-    this.cartContent.next(this.cart.slice());
+    this.setCart(this.cart);
   }
 
-  removeItemFromCart(id: number) {
-    for (const cart of this.cart) {
-      if (cart.id === id) {
-        const indexInArr = this.cart.indexOf(cart);
-        this.cart.splice(indexInArr, 1);
-      }
-    }
-    this.cartContent.next(this.cart.slice());
-  }
-
+  //проходить по кожному масиву товарів корзини рахує заг к-сть товарів та заг суму
   calcOrderData() {
     const orderData = this.cart.reduce(
       (orderData, item) => {
@@ -111,7 +115,7 @@ export class CartService {
 
   private setCart(cart: CartItem[]) {
     this.cart = cart;
-    this.cartContent.next(this.cart.slice());
+    this.cartContent.next(cart.slice());
   }
 
   private setTotalCartQuantity(totalCartQuantity: null | CartData) {

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShopComponent } from './shop.component';
 import { AuthGuard } from '../../core';
 import { USER_ROLES } from '../../shared/constants/constants';
+import { ProductDetailComponent } from '../product-detail/product-detail.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       role: USER_ROLES[1],
     },
   },
+  { path: ':id', component: ProductDetailComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

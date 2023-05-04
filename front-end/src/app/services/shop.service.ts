@@ -18,7 +18,7 @@ export class ShopService {
       .pipe(catchError(this.errorService.handleError));
   }
 
-  getProductDetails(id: number): Observable<ResponseData<IProduct>> {
+  getProductDetails(id: string | null): Observable<ResponseData<IProduct>> {
     return this.http
       .get<ResponseData<IProduct>>(`/${API_PATH}/Home/GetProductById/${id}`)
       .pipe(catchError(this.errorService.handleError));

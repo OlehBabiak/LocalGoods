@@ -10,9 +10,33 @@
   .app-container {
     flex: 1 1 auto;
     height: 100%;
-    display: inline-table;
+    //display: inline-table;
+    align-self: center;
+    padding: 15px;
+
+    @include media-breakpoint-between('min', 'xs') {
+      width: 100%;
+    }
+    @include media-breakpoint-between('s', 's') {
+      width: 100%;
+    }
+    @include media-breakpoint-between('md', 'md') {
+      max-width: 720px;
+    }
+    @include media-breakpoint-between(lg, lg) {
+      width: 960px;
+    }
+
+    @include media-breakpoint-between(lg1, lg1) {
+      width: 1140px;
+    }
+
+    @include media-breakpoint-between(lg2, xlg) {
+      width: 1320px;
+    }
   }
 }
+
 /*background: #cd9cf2;*/
 
 /* Chrome 10-25, Safari 5.1-6 */

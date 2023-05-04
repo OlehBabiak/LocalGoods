@@ -1,43 +1,49 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>{{ product.productTitle }}</mat-card-title>
-    <mat-card-subtitle>{{ product.shortDescription }}</mat-card-subtitle>
-  </mat-card-header>
-  <img
-    class="product-card__image"
-    mat-card-image
-    [src]="product.imageLink"
-    [alt]="product.productTitle"
-  />
-  <mat-card-content>
-    <h3>Seller info:</h3>
-    <p><b>Name:</b> {{ product.seller.name }}</p>
-    <p><b>UserAddres:</b> {{ product.seller.address.country }}</p>
-    <p><b>City:</b> {{ product.seller.address.city }}</p>
-  </mat-card-content>
-  <mat-card-footer>
-    <mat-card-content>
+<div class="card">
+  <div class="card__image-wrapper">
+    <img
+      [alt]="product.productTitle"
+      [src]="product.imageLink"
+      class="product-card__image"
+      mat-card-image
+    />
+    <div class="view">
+    </div>
+    <button (click)="onDetailShow(product.id)" mat-raised-button>View Details</button>
+  </div>
+  <div class="card__header">
+    <div class="card__title">{{ product.productTitle }}</div>
+    <div class="card__subtitle">{{ product.shortDescription }}</div>
+  </div>
+  <div class="card__content">
+    <div>
+      <h3>Seller info:</h3>
+    </div>
+    <div>
+      <p><b>Name:</b> {{ product.seller.name }}</p>
+      <p><b>User Address:</b> {{ product.seller.address.country }}</p>
+      <p><b>City:</b> {{ product.seller.address.city }}</p>
+    </div>
+  </div>
+  <div class="card__footer">
+    <div class="card__footer-content">
       <h3>Price: {{ product.price | currency : 'USD' }}</h3>
-    </mat-card-content>
-    <mat-card-actions>
-      <div class="product-add-container">
-        <input
-          class="product-add-input"
-          type="number"
-          name="product-quantity"
-          id="product-quantity-{{ product.id }}"
-          min="1"
-          [value]="quantity"
-          (change)="changeQuantity($event)"
-        />
+    </div>
+    <div class="card__actions">
+      <app-cart-quantity-calculator (newQuantity)="setNewQuantity(product, $event)" *ngIf="cartItem?.quantity"
+                                    [quantity]="cartItem.quantity.toString()">
+
+      </app-cart-quantity-calculator>
+      <div *ngIf="!cartItem?.quantity" class="card__product-add-container">
         <button
-          mat-raised-button
-          class="product-add-button"
           (click)="onProductAddToCart(product)"
+          class="card__product-add-button"
+          mat-raised-button
         >
-          Add to <mat-icon>shopping_cart</mat-icon>
+          Add to
+          <mat-icon>shopping_cart</mat-icon>
         </button>
       </div>
-    </mat-card-actions>
-  </mat-card-footer>
-</mat-card>
+    </div>
+  </div>
+</div>
+

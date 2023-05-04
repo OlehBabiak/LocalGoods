@@ -1,3 +1,5 @@
+import { HeaderNavItem } from '../components/header/header.component';
+
 export const EMAIL_PATTERN =
   '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$';
 export const PRODUCT_SORT_VALUES = [
@@ -32,3 +34,35 @@ export const USER_ROLES = ['seller', 'customer'];
 export const ORDER_CONFIRM_PATH = 'GetPendingOrders';
 export const Customer_Orders = 'GetOrders';
 export const Local_api = 'https://localhost:7292/';
+export const NAV_ITEMS: HeaderNavItem[] = [
+  {
+    role: '',
+    routerLink: '/contacts',
+    title: 'Contacts',
+  },
+  {
+    role: '',
+    routerLink: '/info',
+    title: 'Info',
+  },
+  {
+    role: 'customer',
+    routerLink: '/shop',
+    title: 'Shop',
+  },
+  {
+    role: 'seller',
+    routerLink: '/seller-admin-panel',
+    title: 'My Farm',
+  },
+  {
+    role: 'seller',
+    routerLink: '/seller-orders',
+    title: 'Pending Orders',
+  },
+  {
+    role: 'customer',
+    routerLink: '/customer-orders',
+    title: 'My Orders',
+  },
+];

@@ -1,0 +1,17 @@
+@import 'src/styles/constants/index';
+@import 'src/styles/common/index';
+@import 'src/styles/mixins/index';
+
+.product-counter {
+  @include display();
+
+  button {
+    background-color: $blue;
+  }
+
+  .counter-input {
+    width: 50px;
+    text-align: center;
+    @include main-text($font-size: $font-medium-plus, $font-weight: $font-weight-600)
+  }
+}
