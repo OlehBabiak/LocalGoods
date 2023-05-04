@@ -9,7 +9,7 @@
     background-color: $blue;
   }
 
-  input {
+  .counter-input {
     width: 50px;
     text-align: center;
     @include main-text($font-size: $font-medium-plus, $font-weight: $font-weight-600)

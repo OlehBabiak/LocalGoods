@@ -32,11 +32,16 @@
   }
 
   &__content {
-    h3 {
-      @include main-text(
-        $font-size: $font-medium-plus,
-        $font-weight: $font-weight-800
-      );
+    width: 100%;
+    @include display();
+
+    div {
+      h3 {
+        @include main-text(
+          $font-size: $font-medium-plus,
+          $font-weight: $font-weight-800
+        );
+      }
     }
   }
 
@@ -80,7 +85,6 @@
 
     button {
       display: block;
-      width: 100px;
       height: 50px;
       position: absolute;
       top: 50%;
@@ -107,10 +111,10 @@
   }
 
   &__product-add-button {
+    padding: 2px 30px;
     @include button($background-color: $green);
-    cursor: pointer;
     transition: 0.2s linear;
-    
+
     mat-icon {
       margin-left: 10px;
       font-size: 20px;
@@ -122,11 +126,11 @@
     background-color: $white;
   }
 
-  &__card-footer {
+  &__footer {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    align-items: end;
+    align-items: start;
     margin: 0;
   }
 
@@ -141,8 +145,12 @@
 
   @include media-breakpoint-between('min', 's') {
     margin: auto 5px 10px 5px;
-    &__image-wrapper img {
-      @include image-size($width: 100%);
+    &__image-wrapper {
+      width: 100%;
+
+      img {
+        @include image-size($width: 100%);
+      }
     }
   }
 }

@@ -26,49 +26,22 @@ export class CartItemComponent {
     this.removeItemSubs.add(this.cartService.removeItem(id).subscribe());
   }
 
-  onIncrease(id: number) {
-    const newQuantity = ++this.cartItem.quantity;
-    this.cartService.calcOrderData();
-    const newAmount = newQuantity * this.cartItem.product.price;
-    this.cartService.changeQuantity(id, newQuantity, newAmount);
-    const model: AddToCartResponseData = {
-      id: id,
-      quantity: 1,
-    };
-    this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
-  }
-
-  onDecrease(id: number) {
-    const newQuantity = --this.cartItem.quantity;
-    this.cartService.calcOrderData();
-    const newAmount = newQuantity * this.cartItem.product.price;
-    this.cartService.changeQuantity(id, newQuantity, newAmount);
-    // this.decreaseQuantitySubs.add(
-    //   this.cartService.decreaseQuantity(id).subscribe()
-    // );
-    const model: AddToCartResponseData = {
-      id: id,
-      quantity: 4,
-    };
-    this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
-  }
-
   setNewQuantity(product: IProduct, $event: string) {
-    const newQuantity = +$event;
-    // this.cartService.calcOrderData();
+    const newQuantity =
+      $event === '+1' ? ++this.cartItem.quantity : --this.cartItem.quantity;
+    this.cartService.calcOrderData();
     const newAmount = newQuantity * this.cartItem.product.price;
     this.cartService.changeQuantity(product.id, newQuantity, newAmount);
-    // const model: AddToCartResponseData = {
-    //   id: product.id,
-    //   quantity: newQuantity,
-    // };
-    // this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
-    if (+$event > this.cartItem.quantity) {
-      console.log(this.cartItem.quantity, +$event);
-      console.log('inc');
+    const model: AddToCartResponseData = {
+      id: product.id,
+      quantity: +$event,
+    };
+    if ($event === '+1') {
+      this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
     } else {
-      console.log(this.cartItem.quantity, +$event);
-      console.log('dec');
+      this.decreaseQuantitySubs.add(
+        this.cartService.decreaseQuantity(product.id).subscribe()
+      );
     }
   }
 }

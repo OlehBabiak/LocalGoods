@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @AutoUnsubscribe('addToCartSubs')
+@AutoUnsubscribe('decreaseQuantitySubs')
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
@@ -14,9 +15,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product!: IProduct;
-  quantity = '1';
-  isThisProductInCart = false;
+  cartItem!: CartItem;
   private addToCartSubs = new Subscription();
+  private decreaseQuantitySubs = new Subscription();
 
   constructor(
     private cartService: CartService,
@@ -32,7 +33,7 @@ export class ProductCardComponent implements OnInit {
   onProductAddToCart(prod: IProduct) {
     const product: AddToCartResponseData = {
       id: prod.id,
-      quantity: +this.quantity,
+      quantity: +1,
     };
     this.addToCartSubs.add(this.cartService.addToCart(product).subscribe());
   }
@@ -45,13 +46,27 @@ export class ProductCardComponent implements OnInit {
     this.cartService.cartContent.subscribe((cartArr: CartItem[]) => {
       cartArr.forEach((cart) => {
         if (cart.product.id === this.product.id) {
-          this.isThisProductInCart = true;
+          this.cartItem = cart;
         }
       });
     });
   }
 
   setNewQuantity(product: IProduct, $event: string) {
-    this.quantity = $event;
+    const newQuantity = +$event + this.cartItem.quantity;
+    const newAmount = newQuantity * this.cartItem.product.price;
+    this.cartService.changeQuantity(product.id, newQuantity, newAmount);
+    const model: AddToCartResponseData = {
+      id: product.id,
+      quantity: +$event,
+    };
+    this.cartService.calcOrderData();
+    if ($event === '+1') {
+      this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
+    } else {
+      this.decreaseQuantitySubs.add(
+        this.cartService.decreaseQuantity(product.id).subscribe()
+      );
+    }
   }
 }
