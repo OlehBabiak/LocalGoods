@@ -25,8 +25,8 @@
       <div class="header__nav header__nav--right">
         <mat-icon
           *ngIf="isUserAuth && user.role === 'customer'"
+          [@bumpState]="state"
           [matBadge]="cartCounter"
-          [ngClass]="btnIsHighlighted ? 'bump' : ''"
           matBadgeColor="warn"
           routerLink="/cart"
           style="cursor: pointer; position: relative"

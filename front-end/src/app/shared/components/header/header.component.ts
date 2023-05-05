@@ -8,12 +8,28 @@ import { AuthService, CartItem } from '../../../core';
 import { User } from '../../../pages/auth/models/user.model';
 import { AutoUnsubscribe } from '../../utils/decorators';
 import { NAV_ITEMS } from '../../constants/constants';
+import {
+  animate,
+  keyframes,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 export interface HeaderNavItem {
   role: string;
   routerLink: string;
   title: string;
 }
+
+const keyframesSpecific = keyframes([
+  style({ transform: 'scale(1)', offset: 0 }),
+  style({ transform: 'scale(0.9)', offset: 0.1 }),
+  style({ transform: 'scale(1.1)', offset: 0.3 }),
+  style({ transform: 'scale(1.15)', offset: 0.5 }),
+  style({ transform: 'scale(1)', offset: 1 }),
+]);
 
 @AutoUnsubscribe('authSubs')
 @AutoUnsubscribe('userSubs')
@@ -22,14 +38,25 @@ export interface HeaderNavItem {
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  animations: [
+    trigger('bumpState', [
+      state('normal', style({})),
+      state('highlighted', style({})),
+      transition(
+        'normal => highlighted',
+        animate('0.5s ease-out', keyframesSpecific)
+      ),
+    ]),
+  ],
 })
 export class HeaderComponent implements OnInit {
   isUserAuth = false;
   user!: User;
   cartCounter = 0;
-  btnIsHighlighted = false;
+  // btnIsHighlighted = false;
   @ViewChild('menu', { read: ViewContainerRef }) menu!: ViewContainerRef;
   navItems: HeaderNavItem[] = NAV_ITEMS;
+  state = 'normal';
   private authSubs = new Subscription();
   private userSubs = new Subscription();
   private cartSubs = new Subscription();
@@ -62,9 +89,11 @@ export class HeaderComponent implements OnInit {
     this.cartSubs.add(
       this.cartService.cartContent.subscribe({
         next: (value: CartItem[]) => {
-          this.btnIsHighlighted = true;
+          // this.btnIsHighlighted = true;
+          this.state = 'highlighted';
           setTimeout(() => {
-            this.btnIsHighlighted = false;
+            // this.btnIsHighlighted = false;
+            this.state = 'normal';
           }, 300);
           this.cartCounter = value.length;
         },
