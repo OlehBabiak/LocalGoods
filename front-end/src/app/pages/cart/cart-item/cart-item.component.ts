@@ -27,21 +27,15 @@ export class CartItemComponent {
   }
 
   setNewQuantity(product: IProduct, $event: string) {
-    const newQuantity =
-      $event === '+1' ? ++this.cartItem.quantity : --this.cartItem.quantity;
-    this.cartService.calcOrderData();
+    console.log($event);
+    const newQuantity = +$event;
     const newAmount = newQuantity * this.cartItem.product.price;
     this.cartService.changeQuantity(product.id, newQuantity, newAmount);
     const model: AddToCartResponseData = {
       id: product.id,
       quantity: +$event,
     };
-    if ($event === '+1') {
-      this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
-    } else {
-      this.decreaseQuantitySubs.add(
-        this.cartService.decreaseQuantity(product.id).subscribe()
-      );
-    }
+    this.cartService.calcOrderData();
+    this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
   }
 }

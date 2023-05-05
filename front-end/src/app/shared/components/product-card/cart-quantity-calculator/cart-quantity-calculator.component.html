@@ -1,8 +1,16 @@
 <div class="product-counter">
-  <button (click)="onDecreaseQuantity()" [disabled]="+quantity < 1" mat-raised-button>
+  <button (click)="onDecreaseQuantity()" [disabled]="+quantity <= 1" mat-raised-button>
     <mat-icon>remove</mat-icon>
   </button>
-  <div class="counter-input">{{quantity}}</div>
+  <input
+    (change)="onQuantityChange($event)"
+    [value]="quantity"
+    class="counter-input"
+    matInput max="149"
+    min="1"
+    pattern="[0-9]"
+    step="1"
+    type="text">
   <button (click)="onIncreaseQuantity()" mat-raised-button>
     <mat-icon>add</mat-icon>
   </button>
