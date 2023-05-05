@@ -12,15 +12,19 @@ export class CartQuantityCalculatorComponent {
 
   onIncreaseQuantity() {
     let quantity = Number(this.quantity);
-    --quantity;
+    ++quantity;
     this.quantity = quantity.toString();
-    this.newQuantity.emit('+1');
+    this.newQuantity.emit(this.quantity);
   }
 
   onDecreaseQuantity() {
     let quantity = Number(this.quantity);
-    ++quantity;
+    --quantity;
     this.quantity = quantity.toString();
-    this.newQuantity.emit('-1');
+    this.newQuantity.emit(this.quantity);
+  }
+
+  onQuantityChange($event: Event) {
+    this.newQuantity.emit(($event.target as HTMLInputElement).value);
   }
 }

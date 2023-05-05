@@ -53,7 +53,8 @@ export class ProductCardComponent implements OnInit {
   }
 
   setNewQuantity(product: IProduct, $event: string) {
-    const newQuantity = +$event + this.cartItem.quantity;
+    console.log($event);
+    const newQuantity = +$event;
     const newAmount = newQuantity * this.cartItem.product.price;
     this.cartService.changeQuantity(product.id, newQuantity, newAmount);
     const model: AddToCartResponseData = {
@@ -61,12 +62,6 @@ export class ProductCardComponent implements OnInit {
       quantity: +$event,
     };
     this.cartService.calcOrderData();
-    if ($event === '+1') {
-      this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
-    } else {
-      this.decreaseQuantitySubs.add(
-        this.cartService.decreaseQuantity(product.id).subscribe()
-      );
-    }
+    this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
   }
 }
