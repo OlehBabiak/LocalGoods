@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @AutoUnsubscribe('addToCartSubs')
 @AutoUnsubscribe('decreaseQuantitySubs')
+@AutoUnsubscribe('removeItemSubs')
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
@@ -18,6 +19,7 @@ export class ProductCardComponent implements OnInit {
   cartItem!: CartItem;
   private addToCartSubs = new Subscription();
   private decreaseQuantitySubs = new Subscription();
+  private removeItemSubs = new Subscription();
 
   constructor(
     private cartService: CartService,
@@ -53,7 +55,6 @@ export class ProductCardComponent implements OnInit {
   }
 
   setNewQuantity(product: IProduct, $event: string) {
-    console.log($event);
     const newQuantity = +$event;
     const newAmount = newQuantity * this.cartItem.product.price;
     this.cartService.changeQuantity(product.id, newQuantity, newAmount);
@@ -62,6 +63,12 @@ export class ProductCardComponent implements OnInit {
       quantity: +$event,
     };
     this.cartService.calcOrderData();
-    this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
+    if (+$event > 0) {
+      this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
+    } else {
+      this.removeItemSubs.add(
+        this.cartService.removeItem(this.cartItem.id).subscribe()
+      );
+    }
   }
 }
