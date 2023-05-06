@@ -36,6 +36,10 @@ export class CartItemComponent {
       quantity: +$event,
     };
     this.cartService.calcOrderData();
-    this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
+    if (+$event > 0) {
+      this.addToCartSubs.add(this.cartService.addToCart(model).subscribe());
+    } else {
+      this.removeItem(this.cartItem.id);
+    }
   }
 }
