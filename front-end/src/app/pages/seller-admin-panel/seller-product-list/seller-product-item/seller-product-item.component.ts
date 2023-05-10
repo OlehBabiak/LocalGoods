@@ -4,10 +4,9 @@ import { CreateSellerProductDialogComponent } from '../dialogs/create-seller-pro
 import { Store } from '@ngrx/store';
 import * as fromSellerProductList from '../../../../store';
 import * as ProductActions from '../../../../store/seller-product.actions';
-import { SellerService } from '../../../../services/seller.service';
-import { SellerProductStorageService } from '../../../../services/seller-product-storage.service';
 import { ErrorDialogComponent } from '../../../../shared/error-handling/error-dialog/error-dialog.component';
 import { SellerProductItem } from '../../../../core/interfaces/responseDatas/SellerProductResponseData';
+import { SellerService } from '../../seller.service';
 
 @Component({
   selector: 'app-seller-product-item',
@@ -20,12 +19,11 @@ export class SellerProductItemComponent {
   constructor(
     private dialog: MatDialog,
     public store: Store<fromSellerProductList.AppState>,
-    public sellerService: SellerService,
-    public sellerProductStorageService: SellerProductStorageService
+    public sellerService: SellerService
   ) {}
 
   onProductDelete() {
-    this.sellerProductStorageService
+    this.sellerService
       .deleteProduct(this.sellerProduct.id.toString())
       .subscribe({
         next: (res: SellerProductItem[]) => {

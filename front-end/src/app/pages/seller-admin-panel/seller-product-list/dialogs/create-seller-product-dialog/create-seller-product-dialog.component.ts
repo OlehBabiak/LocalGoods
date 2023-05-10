@@ -5,12 +5,11 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { SellerProductState } from '../../../../../store/seller-product.reducer';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SellerProductStorageService } from '../../../../../services/seller-product-storage.service';
 import { CategoryModel } from '../../../models/category.model';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { SellerService } from '../../../../../services/seller.service';
 import { ErrorDialogComponent } from '../../../../../shared/error-handling/error-dialog/error-dialog.component';
 import { SellerProductItem } from '../../../../../core/interfaces/responseDatas/SellerProductResponseData';
+import { SellerService } from '../../../seller.service';
 
 @Component({
   selector: 'app-create-seller-product-dialog',
@@ -18,15 +17,14 @@ import { SellerProductItem } from '../../../../../core/interfaces/responseDatas/
   styleUrls: ['./create-seller-product-dialog.component.scss'],
 })
 export class CreateSellerProductDialogComponent implements OnInit, OnDestroy {
-  private productsSubscription!: Subscription;
   isCreateMode!: boolean;
   createProductForm!: FormGroup;
   categories!: CategoryModel[];
+  private productsSubscription!: Subscription;
 
   constructor(
     public store: Store<fromSellerProductList.AppState>,
     public sellerService: SellerService,
-    public sellerProductStorageService: SellerProductStorageService,
     @Inject(MAT_DIALOG_DATA) public data: SellerProductItem,
     public dialog: MatDialog
   ) {}
@@ -62,7 +60,7 @@ export class CreateSellerProductDialogComponent implements OnInit, OnDestroy {
       ]),
     });
 
-    this.sellerProductStorageService.getCategories().subscribe({
+    this.sellerService.getCategories().subscribe({
       next: ({ data }) => {
         this.categories = [...data];
         this.store.dispatch(new ProductActions.GetCategories(data));
@@ -76,22 +74,20 @@ export class CreateSellerProductDialogComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.isCreateMode) {
-      this.sellerProductStorageService
-        .storeProduct(this.createProductForm.value)
-        .subscribe({
-          next: (res: SellerProductItem[]) => {
-            this.sellerService.setProducts(res);
-          },
-          error: (err) => {
-            const dialogRef = this.dialog.open(ErrorDialogComponent, {
-              data: err,
-              panelClass: 'color',
-            });
-            dialogRef.afterClosed();
-          },
-        });
+      this.sellerService.addProduct(this.createProductForm.value).subscribe({
+        next: (res: SellerProductItem[]) => {
+          this.sellerService.setProducts(res);
+        },
+        error: (err) => {
+          const dialogRef = this.dialog.open(ErrorDialogComponent, {
+            data: err,
+            panelClass: 'color',
+          });
+          dialogRef.afterClosed();
+        },
+      });
     } else {
-      this.sellerProductStorageService
+      this.sellerService
         .updateProduct(this.data.id.toString(), this.createProductForm.value)
         .subscribe({
           next: (res: SellerProductItem[]) => {
@@ -116,7 +112,7 @@ export class CreateSellerProductDialogComponent implements OnInit, OnDestroy {
     const file = (event.target as HTMLInputElement).files?.[0];
     const formData = new FormData();
     formData.append('file', file as File);
-    this.sellerProductStorageService.uploadImage(formData).subscribe({
+    this.sellerService.uploadImage(formData).subscribe({
       next: ({ data }) => {
         this.createProductForm.patchValue({
           photo: data,

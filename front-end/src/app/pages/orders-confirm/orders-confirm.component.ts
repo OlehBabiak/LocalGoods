@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SellerService } from '../../services/seller.service';
 import { MessageDialogComponent } from '../../shared/dialogs/message-dialog/message-dialog.component';
 import { Order } from '../../core';
+import { OrdersConfirmService } from './orders-confirm.service';
 
 @Component({
   selector: 'app-orders-confirm',
@@ -12,20 +12,17 @@ import { Order } from '../../core';
 export class OrdersConfirmComponent implements OnInit {
   pending_orders!: Order[] | undefined;
 
-  constructor(public sellerService: SellerService, public dialog: MatDialog) {}
+  constructor(
+    public orderConfirmService: OrdersConfirmService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getOrders();
   }
 
-  getOrders() {
-    this.sellerService.getOrders().subscribe(({ data }) => {
-      this.pending_orders = data;
-    });
-  }
-
   declineOrder(id: number) {
-    this.sellerService.declineOrder(id).subscribe((result) => {
+    this.orderConfirmService.declineOrder(id).subscribe((result) => {
       this.getOrders();
       const dialogRef = this.dialog.open(MessageDialogComponent, {
         data: result.message,
@@ -35,12 +32,18 @@ export class OrdersConfirmComponent implements OnInit {
   }
 
   deliverOrder(id: number) {
-    this.sellerService.deliverOrder(id).subscribe((result) => {
+    this.orderConfirmService.deliverOrder(id).subscribe((result) => {
       this.getOrders();
       const dialogRef = this.dialog.open(MessageDialogComponent, {
         data: result.message,
       });
       dialogRef.afterClosed();
+    });
+  }
+
+  private getOrders() {
+    this.orderConfirmService.getOrders().subscribe(({ data }) => {
+      this.pending_orders = data;
     });
   }
 }
