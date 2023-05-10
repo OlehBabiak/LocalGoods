@@ -11,8 +11,8 @@ import { CreateSellerProductDialogComponent } from './dialogs/create-seller-prod
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../../shared/error-handling/error-dialog/error-dialog.component';
 import { SellerProductItem } from '../../../core/interfaces/responseDatas/SellerProductResponseData';
-import { SellerService } from '../seller.service';
 import { AutoUnsubscribe } from '../../../shared/utils/decorators';
+import { SellerService } from '../services/seller.service';
 
 @AutoUnsubscribe('storeSubs')
 @Component({

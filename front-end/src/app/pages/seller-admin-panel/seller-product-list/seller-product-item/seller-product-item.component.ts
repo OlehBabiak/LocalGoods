@@ -6,7 +6,7 @@ import * as fromSellerProductList from '../../../../store';
 import * as ProductActions from '../../../../store/seller-product.actions';
 import { ErrorDialogComponent } from '../../../../shared/error-handling/error-dialog/error-dialog.component';
 import { SellerProductItem } from '../../../../core/interfaces/responseDatas/SellerProductResponseData';
-import { SellerService } from '../../seller.service';
+import { SellerService } from '../../services/seller.service';
 
 @Component({
   selector: 'app-seller-product-item',
