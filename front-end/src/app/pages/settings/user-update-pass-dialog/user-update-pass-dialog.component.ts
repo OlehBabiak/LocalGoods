@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CustomValidators, FormValidator } from '../../../validators';
-import { SettingsService } from '../../../services/settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from '../../../shared/dialogs/message-dialog/message-dialog.component';
 import { ErrorDialogComponent } from '../../../shared/error-handling/error-dialog/error-dialog.component';
 import { FormData } from '../../../core';
 import { FormService } from '../../../services/form.service';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-user-update-pass-dialog',
@@ -28,6 +28,10 @@ export class UserUpdatePassDialogComponent implements OnInit {
     private formValidator: FormValidator,
     private formService: FormService
   ) {}
+
+  get _errorMessage() {
+    return this.formValidator.errorMessage;
+  }
 
   ngOnInit(): void {
     this.formService.getUpdatePasswordJson().subscribe((formData: FormData) => {
@@ -56,10 +60,6 @@ export class UserUpdatePassDialogComponent implements OnInit {
 
   getError(e: string) {
     return this.passForm.get(e);
-  }
-
-  get _errorMessage() {
-    return this.formValidator.errorMessage;
   }
 
   onTogglePassVisible(controlName: string) {

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SettingsService } from '../../../services/settings.service';
 import { MessageDialogComponent } from '../../../shared/dialogs/message-dialog/message-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../../shared/error-handling/error-dialog/error-dialog.component';
 import { AutoUnsubscribe } from '../../../shared/utils/decorators';
 import { Subscription } from 'rxjs';
+import { SettingsService } from '../settings.service';
 
 @AutoUnsubscribe('subscription')
 @Component({

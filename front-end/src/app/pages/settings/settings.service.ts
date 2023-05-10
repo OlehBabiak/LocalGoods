@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
-import { ErrorService } from '../shared/error-handling/error.service';
+import { ErrorService } from '../../shared/error-handling/error.service';
 import {
   Certification,
   ChangePassword,
+  CountryName,
   DialCode,
   ResponseData,
   StateData,
   User,
   UserAddress,
-  CountryName,
-} from '../core';
+} from '../../core';
 import {
   API_PATH,
   API_PATH_SELLER,
   PATH_ADD_CERTIFICATE,
   PATH_CHANGE_PASS,
   PATH_EDIT,
-} from '../shared/constants/constants';
+} from '../../shared/constants/constants';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SettingsService {
   constructor(private http: HttpClient, private errorService: ErrorService) {}
 
