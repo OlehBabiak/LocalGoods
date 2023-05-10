@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { ProductCardComponent } from './product-card/product-card.component';
-import { SubMenuHeaderComponent } from './sub-menu-header/sub-menu-header.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +28,6 @@ import { CartQuantityCalculatorComponent } from './product-card/cart-quantity-ca
     FooterComponent,
     HeaderComponent,
     ProductCardComponent,
-    SubMenuHeaderComponent,
     LoadingSpinnerComponent,
     CartQuantityCalculatorComponent,
   ],
@@ -59,7 +57,6 @@ import { CartQuantityCalculatorComponent } from './product-card/cart-quantity-ca
     FooterComponent,
     HeaderComponent,
     ProductCardComponent,
-    SubMenuHeaderComponent,
     LoadingSpinnerComponent,
     MatToolbarModule,
     MatIconModule,

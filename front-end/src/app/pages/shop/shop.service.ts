@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { IProduct, ProductCategory, ProductData, ResponseData } from '../core';
-import { API_PATH } from '../shared/constants/constants';
-import { ErrorService } from '../shared/error-handling/error.service';
+import {
+  IProduct,
+  ProductCategory,
+  ProductData,
+  ResponseData,
+} from '../../core';
+import { API_PATH } from '../../shared/constants/constants';
+import { ErrorService } from '../../shared/error-handling/error.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ShopService {
   constructor(private http: HttpClient, private errorService: ErrorService) {}
 

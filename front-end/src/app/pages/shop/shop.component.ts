@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ShopService } from '../../services/shop.service';
 import { Store } from '@ngrx/store';
 import * as fromShop from '../../store/index';
 import { ShopState } from '../../store/shop.reducer';
@@ -9,6 +8,7 @@ import { map, Observable, Subscription, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { IProduct } from '../../core';
 import { AutoUnsubscribe } from '../../shared/utils/decorators';
+import { ShopService } from './shop.service';
 
 @AutoUnsubscribe('getStateSubs')
 @AutoUnsubscribe('getCartSubs')

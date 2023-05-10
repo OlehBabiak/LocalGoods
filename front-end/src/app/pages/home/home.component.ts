@@ -1,6 +1,5 @@
 import { CartService } from 'src/app/services/cart.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ShopService } from 'src/app/services/shop.service';
 import { Subscription } from 'rxjs';
 import { User } from '../auth/models/user.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,12 +12,11 @@ import { AddToCartResponseData, AuthService } from '../../core';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public topProds!: any[];
-  private userSub!: Subscription;
   user!: User;
+  private userSub!: Subscription;
 
   constructor(
     public dialog: MatDialog,
-    public shopService: ShopService,
     public authService: AuthService,
     public cartService: CartService
   ) {}
