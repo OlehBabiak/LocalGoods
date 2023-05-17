@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { ProductCardComponent } from './product-card/product-card.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,13 +20,12 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatBadgeModule } from '@angular/material/badge';
-import { CartQuantityCalculatorComponent } from './product-card/cart-quantity-calculator/cart-quantity-calculator.component';
+import { CartQuantityCalculatorComponent } from './cart-quantity-calculator/cart-quantity-calculator.component';
 
 @NgModule({
   declarations: [
     FooterComponent,
     HeaderComponent,
-    ProductCardComponent,
     LoadingSpinnerComponent,
     CartQuantityCalculatorComponent,
   ],
@@ -56,7 +54,6 @@ import { CartQuantityCalculatorComponent } from './product-card/cart-quantity-ca
   exports: [
     FooterComponent,
     HeaderComponent,
-    ProductCardComponent,
     LoadingSpinnerComponent,
     MatToolbarModule,
     MatIconModule,

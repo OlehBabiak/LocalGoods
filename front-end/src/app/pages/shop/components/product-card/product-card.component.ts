@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddToCartResponseData, CartItem, IProduct } from '../../../core';
-import { AutoUnsubscribe } from '../../utils/decorators';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AutoUnsubscribe } from '../../../../shared/utils/decorators';
+import { AddToCartResponseData, CartItem, IProduct } from '../../../../core';
 
 @AutoUnsubscribe('addToCartSubs')
 @AutoUnsubscribe('decreaseQuantitySubs')
