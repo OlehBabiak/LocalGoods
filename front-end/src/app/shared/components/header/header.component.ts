@@ -75,4 +75,10 @@ export class HeaderComponent implements OnInit {
   onLogout() {
     this.authService.logout();
   }
+
+  hasPermission(item: HeaderNavItem): boolean {
+    return (
+      item.role === '' || (item.role === this.user.role && this.isUserAuth)
+    );
+  }
 }

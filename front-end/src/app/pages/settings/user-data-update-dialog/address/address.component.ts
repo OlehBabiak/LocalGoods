@@ -7,9 +7,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
-import { SettingsService } from '../../../../services/settings.service';
 import { map } from 'rxjs';
 import { User } from '../../../auth/models/user.model';
+import { SettingsService } from '../../settings.service';
 
 @Component({
   selector: 'app-address',

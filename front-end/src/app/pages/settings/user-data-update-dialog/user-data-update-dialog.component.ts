@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SettingsService } from '../../../services/settings.service';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromShop from '../../../store';
@@ -12,6 +11,7 @@ import { ErrorDialogComponent } from '../../../shared/error-handling/error-dialo
 import { AuthService } from '../../../core';
 import { AutoUnsubscribe } from '../../../shared/utils/decorators';
 import { User } from '../../auth/models/user.model';
+import { SettingsService } from '../settings.service';
 
 @AutoUnsubscribe('subscription')
 @AutoUnsubscribe('subscription2')
@@ -22,9 +22,9 @@ import { User } from '../../auth/models/user.model';
 })
 export class UserDataUpdateDialogComponent implements OnInit {
   userForm: FormGroup = new FormGroup({});
-  private subscription = new Subscription();
   user!: User;
   city!: string;
+  private subscription = new Subscription();
 
   constructor(
     private settingsService: SettingsService,
@@ -36,6 +36,29 @@ export class UserDataUpdateDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  onSubmit() {
+    this.settingsService.updateUserInfo(this.userForm.value).subscribe({
+      next: ({ data: data, message: message }) => {
+        this.userService.updateUserInStore(data);
+        const dialogRef = this.dialog.open(MessageDialogComponent, {
+          data: message,
+        });
+        dialogRef.afterClosed();
+      },
+      error: (err) => {
+        const dialogRef = this.dialog.open(ErrorDialogComponent, {
+          data: err,
+          panelClass: 'color',
+        });
+        dialogRef.afterClosed();
+      },
+    });
+  }
+
+  setDialCode($event: string) {
+    this.userForm.get('basicInfo')?.get('mobile')?.setValue($event);
   }
 
   private initForm() {
@@ -66,28 +89,5 @@ export class UserDataUpdateDialogComponent implements OnInit {
         area: new FormControl(this.user.address?.area, [Validators.required]),
       }),
     });
-  }
-
-  onSubmit() {
-    this.settingsService.updateUserInfo(this.userForm.value).subscribe({
-      next: ({ data: data, message: message }) => {
-        this.userService.updateUserInStore(data);
-        const dialogRef = this.dialog.open(MessageDialogComponent, {
-          data: message,
-        });
-        dialogRef.afterClosed();
-      },
-      error: (err) => {
-        const dialogRef = this.dialog.open(ErrorDialogComponent, {
-          data: err,
-          panelClass: 'color',
-        });
-        dialogRef.afterClosed();
-      },
-    });
-  }
-
-  setDialCode($event: string) {
-    this.userForm.get('basicInfo')?.get('mobile')?.setValue($event);
   }
 }

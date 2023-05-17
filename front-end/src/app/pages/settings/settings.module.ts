@@ -8,6 +8,7 @@ import { AddressComponent } from './user-data-update-dialog/address/address.comp
 import { UserUpdatePassDialogComponent } from './user-update-pass-dialog/user-update-pass-dialog.component';
 import { AddCertificateDialogComponent } from './add-certificate-dialog/add-certificate-dialog.component';
 import { SettingsComponent } from './settings.component';
+import { SettingsService } from './settings.service';
 
 @NgModule({
   declarations: [
@@ -19,5 +20,6 @@ import { SettingsComponent } from './settings.component';
     SettingsComponent,
   ],
   imports: [SharedModule, CommonModule, SettingsRoutingModule],
+  providers: [SettingsService],
 })
 export class SettingsModule {}

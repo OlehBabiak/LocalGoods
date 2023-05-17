@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCT_SORT_VALUES } from '../../constants/constants';
 import { Store } from '@ngrx/store';
-import * as fromShop from '../../../store/index';
-import * as ShopActions from '../../../store/shop.actions';
-import { ShopService } from 'src/app/services/shop.service';
+import * as fromShop from '../../../../store/index';
+import * as ShopActions from '../../../../store/shop.actions';
 import { map } from 'rxjs';
+import { PRODUCT_SORT_VALUES } from '../../../../shared/constants/constants';
+import { ShopService } from '../../shop.service';
 
 @Component({
   selector: 'app-sub-menu-header',

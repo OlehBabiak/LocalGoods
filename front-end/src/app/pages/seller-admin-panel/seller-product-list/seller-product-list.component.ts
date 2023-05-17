@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { SellerProductStorageService } from '../../../services/seller-product-storage.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as fromSellerProductList from '../../../store';
 import { Store } from '@ngrx/store';
 import { SellerProductState } from '../../../store/seller-product.reducer';
-import { SellerService } from '../../../services/seller.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,14 +11,16 @@ import { CreateSellerProductDialogComponent } from './dialogs/create-seller-prod
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../../shared/error-handling/error-dialog/error-dialog.component';
 import { SellerProductItem } from '../../../core/interfaces/responseDatas/SellerProductResponseData';
+import { AutoUnsubscribe } from '../../../shared/utils/decorators';
+import { SellerService } from '../services/seller.service';
 
+@AutoUnsubscribe('storeSubs')
 @Component({
   selector: 'app-seller-product-list',
   templateUrl: './seller-product-list.component.html',
   styleUrls: ['./seller-product-list.component.scss'],
 })
-export class SellerProductListComponent implements OnInit, OnDestroy {
-  private subscription!: Subscription;
+export class SellerProductListComponent implements OnInit {
   products!: SellerProductItem[];
   displayedColumns: string[] = [
     'id',
@@ -34,17 +34,16 @@ export class SellerProductListComponent implements OnInit, OnDestroy {
   dataSource!: MatTableDataSource<SellerProductItem>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  private storeSubs = new Subscription();
 
   constructor(
-    public sellerStorageService: SellerProductStorageService,
     public store: Store<fromSellerProductList.AppState>,
     public sellerService: SellerService,
-    public sellerProductStorageService: SellerProductStorageService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.sellerStorageService.getProducts().subscribe({
+    this.sellerService.getProducts().subscribe({
       next: (res: SellerProductItem[]) => {
         this.sellerService.setProducts(res);
       },
@@ -57,14 +56,16 @@ export class SellerProductListComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.subscription = this.store
-      .select('sellerProductData')
-      .subscribe((state: SellerProductState) => {
-        this.products = state.sellerProducts;
-        this.dataSource = new MatTableDataSource(this.products);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    this.storeSubs.add(
+      this.store
+        .select('sellerProductData')
+        .subscribe((state: SellerProductState) => {
+          this.products = state.sellerProducts;
+          this.dataSource = new MatTableDataSource(this.products);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        })
+    );
   }
 
   applyFilter(event: Event) {
@@ -77,7 +78,8 @@ export class SellerProductListComponent implements OnInit, OnDestroy {
   }
 
   onProductDelete(id: number) {
-    this.sellerProductStorageService.deleteProduct(id.toString()).subscribe({
+    console.log('ura');
+    this.sellerService.deleteProduct(id.toString()).subscribe({
       next: (res: SellerProductItem[]) => {
         this.sellerService.setProducts(res);
       },
@@ -94,9 +96,5 @@ export class SellerProductListComponent implements OnInit, OnDestroy {
       data: product,
     });
     dialogRef.afterClosed();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

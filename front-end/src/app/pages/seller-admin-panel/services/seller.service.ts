@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import * as fromSellerProductList from '../../../store';
+import * as ProductActions from '../../../store/seller-product.actions';
+import { Store } from '@ngrx/store';
+import { SellerProductItem } from '../../../core/interfaces/responseDatas/SellerProductResponseData';
 import { catchError, map, Observable } from 'rxjs';
-import { UserService } from './user.service';
-import { ErrorService } from '../shared/error-handling/error.service';
+import { IProduct, ProductCategory, ResponseData } from '../../../core';
 import {
   API,
   API_PATH,
@@ -14,21 +16,21 @@ import {
   PATH_GET_PRODUCT_BY_ID,
   PATH_GET_PRODUCTS,
   PATH_UPLOAD,
-} from '../shared/constants/constants';
-import { IProduct, ProductCategory, ResponseData } from '../core';
-import { SellerProductItem } from '../core/interfaces/responseDatas/SellerProductResponseData';
+} from '../../../shared/constants/constants';
+import { HttpClient } from '@angular/common/http';
+import { ErrorService } from '../../../shared/error-handling/error.service';
+import { SellerFacadeService } from './seller-facade.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class SellerProductStorageService {
+@Injectable()
+export class SellerService {
   constructor(
     private http: HttpClient,
-    private userService: UserService,
-    private errorService: ErrorService
+    private sellerFacadeService: SellerFacadeService,
+    private errorService: ErrorService,
+    public store: Store<fromSellerProductList.AppState>
   ) {}
 
-  storeProduct(product: SellerProductItem): Observable<SellerProductItem[]> {
+  addProduct(product: SellerProductItem): Observable<SellerProductItem[]> {
     return this.http
       .post<ResponseData<IProduct[]>>(
         `/${API_PATH_SELLER}/${PATH_ADD_PRODUCT}`,
@@ -37,7 +39,7 @@ export class SellerProductStorageService {
       .pipe(
         catchError(this.errorService.handleError),
         map(({ data }) => {
-          return this.userService.transformProductArrResponse(data);
+          return this.sellerFacadeService.transformProductArrResponse(data);
         })
       );
   }
@@ -50,7 +52,7 @@ export class SellerProductStorageService {
       .pipe(
         catchError(this.errorService.handleError),
         map(({ data }) => {
-          return this.userService.transformProductArrResponse(data);
+          return this.sellerFacadeService.transformProductArrResponse(data);
         })
       );
   }
@@ -68,7 +70,7 @@ export class SellerProductStorageService {
       .pipe(
         catchError(this.errorService.handleError),
         map(({ data }) => {
-          return this.userService.transformProductArrResponse(data);
+          return this.sellerFacadeService.transformProductArrResponse(data);
         })
       );
   }
@@ -82,7 +84,7 @@ export class SellerProductStorageService {
         catchError(this.errorService.handleError),
         map(({ data }) => {
           console.log('Product: ', data);
-          return this.userService.transformProductResponse(data);
+          return this.sellerFacadeService.transformProductResponse(data);
         })
       );
   }
@@ -93,7 +95,7 @@ export class SellerProductStorageService {
       .pipe(
         catchError(this.errorService.handleError),
         map(({ data }) => {
-          return this.userService.transformProductArrResponse(data);
+          return this.sellerFacadeService.transformProductArrResponse(data);
         })
       );
   }
@@ -112,5 +114,9 @@ export class SellerProductStorageService {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .pipe(catchError(this.errorService.handleError));
+  }
+
+  setProducts(products: SellerProductItem[]) {
+    this.store.dispatch(new ProductActions.SetProducts(products));
   }
 }

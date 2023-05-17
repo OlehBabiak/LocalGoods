@@ -1,3 +1,3 @@
 export class UserPaymentCardModel {
-  constructor(public value: string) {}
+  public value!: string;
 }

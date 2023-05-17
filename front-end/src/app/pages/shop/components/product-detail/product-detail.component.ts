@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
-import { ShopService } from 'src/app/services/shop.service';
-import { AddToCartResponseData, IProduct, ResponseData } from '../../core';
+import {
+  AddToCartResponseData,
+  IProduct,
+  ResponseData,
+} from '../../../../core';
 import { BehaviorSubject, map, Observable, Subscription, tap } from 'rxjs';
-import { AutoUnsubscribe } from '../../shared/utils/decorators';
+import { AutoUnsubscribe } from '../../../../shared/utils/decorators';
+import { ShopService } from '../../shop.service';
 
 export interface Seller {
   key: string;

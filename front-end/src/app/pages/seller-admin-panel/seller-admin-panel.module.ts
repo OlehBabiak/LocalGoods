@@ -8,6 +8,8 @@ import { SellerProductItemComponent } from './seller-product-list/seller-product
 import { SellerProductDetailsComponent } from './seller-product-list/seller-product-details/seller-product-details.component';
 import { SellerProductStartComponent } from './seller-product-list/seller-product-start/seller-product-start.component';
 import { CreateSellerProductDialogComponent } from './seller-product-list/dialogs/create-seller-product-dialog/create-seller-product-dialog.component';
+import { SellerFacadeService } from './services/seller-facade.service';
+import { SellerService } from './services/seller.service';
 
 @NgModule({
   declarations: [
@@ -19,5 +21,6 @@ import { CreateSellerProductDialogComponent } from './seller-product-list/dialog
     CreateSellerProductDialogComponent,
   ],
   imports: [SharedModule, CommonModule, SellerAdminPanelRoutingModule],
+  providers: [SellerService, SellerFacadeService],
 })
 export class SellerAdminPanelModule {}
