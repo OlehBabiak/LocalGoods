@@ -6,15 +6,9 @@
     <div class="header__navbar">
       <div class="header__nav">
         <ul>
-          <ng-container *ngFor="let navItem of navItems" [ngSwitch]="navItem.role">
+          <ng-container *ngFor="let navItem of navItems">
             <li
-              *ngSwitchCase="''"
-              [routerLink]="navItem.routerLink"
-              routerLinkActive="active"
-              style="cursor: pointer"
-            ><a>{{navItem.title}}</a></li>
-            <li
-              *ngSwitchCase="user.role"
+              *ngIf="hasPermission(navItem)"
               [routerLink]="navItem.routerLink"
               routerLinkActive="active"
               style="cursor: pointer"
@@ -40,17 +34,19 @@
         >person_outline
         </mat-icon
         >
-        <mat-icon *ngIf="!isUserAuth" routerLink="/login" style="cursor: pointer"
-        >login
-        </mat-icon
-        >
-        <mat-icon
+        <i
           *ngIf="!isUserAuth"
+          class="material-icons"
+          routerLink="/login"
+          style="cursor: pointer"
+        >login
+        </i>
+        <i
+          *ngIf="!isUserAuth"
+          class="material-icons"
           routerLink="/register"
           style="cursor: pointer"
-        >lock_open
-        </mat-icon
-        >
+        >lock_open</i>
       </div>
       <div class="header__burger">
         <button [matMenuTriggerFor]="menu" class="header__navbar-toggle" type="button">

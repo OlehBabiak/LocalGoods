@@ -92,9 +92,10 @@ a {
       }
     }
 
-    mat-icon {
+    .material-icons {
       margin-left: 20px;
       color: $white;
+      font-size: $font-large;
     }
   }
 
