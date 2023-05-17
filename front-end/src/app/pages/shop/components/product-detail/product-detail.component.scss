@@ -29,15 +29,8 @@
   }
 
   &__add-container {
-    display: flex;
-
-    input {
-      //font-size: 16px;
-      //padding: 5px 20px;
-      //width: 70px;
-      //margin-right: 10px;
-      //outline: none;
-    }
+    @include display($flex-direction: column);
+    gap: $medium-gap
   }
 
   &__btn {

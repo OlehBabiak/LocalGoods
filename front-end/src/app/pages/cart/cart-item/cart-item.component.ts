@@ -27,7 +27,6 @@ export class CartItemComponent {
   }
 
   setNewQuantity(product: IProduct, $event: string) {
-    console.log($event);
     const newQuantity = +$event;
     const newAmount = newQuantity * this.cartItem.product.price;
     this.cartService.changeQuantity(product.id, newQuantity, newAmount);

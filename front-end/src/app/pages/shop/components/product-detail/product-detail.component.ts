@@ -45,7 +45,7 @@ export class ProductDetailComponent implements OnInit {
   onClickAdd(prod: IProduct) {
     const product: AddToCartResponseData = {
       id: prod.id,
-      quantity: 1,
+      quantity: +this.quantity,
     };
     this.addToCartSubs.add(this.cartService.addToCart(product).subscribe());
   }
@@ -58,11 +58,14 @@ export class ProductDetailComponent implements OnInit {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
+  setNewQuantity(product: IProduct, event: string) {
+    this.quantity = event;
+  }
+
   private getProductDetails(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.$product = this.shopService.getProductDetails(this.id).pipe(
       map((resp: ResponseData<IProduct>) => {
-        console.log(resp.data);
         return resp.data;
       }),
       tap((value: IProduct) => {

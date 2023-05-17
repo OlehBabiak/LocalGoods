@@ -11,15 +11,10 @@
         <p class="product-detail__desc">{{ product.longDescription }}</p>
         <h3 class="product-detail__price">${{ product.price }}</h3>
         <div class="product-detail__add-container">
-          <input
-            (change)="onChangeQuantity($event)"
-            [value]="quantity"
-            id="product-quantity-{{ product.id }}"
-            matInput
-            min="1"
-            name="product-quantity"
-            type="number"
-          />
+          <app-cart-quantity-calculator (newQuantity)="setNewQuantity(product, $event)"
+                                        [quantity]="quantity">
+
+          </app-cart-quantity-calculator>
           <!--call onClickAdd function on a button click and pass product.id and input value-->
           <button (click)="onClickAdd(product)" [disabled]="+quantity < 0" class="product-detail__btn"
                   mat-raised-button>
