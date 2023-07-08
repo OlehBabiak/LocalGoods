@@ -7,6 +7,7 @@ import { IProduct } from '../../core';
 export class PaginationPipe implements PipeTransform {
   transform(products: IProduct[], ...args: number[]): IProduct[] {
     if (products) {
+      console.log(...args);
       const arr = [...products];
       const page = args[0] * args[1];
       return arr.splice(page, args[1]);
