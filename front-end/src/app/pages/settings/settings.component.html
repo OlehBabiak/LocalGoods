@@ -29,7 +29,7 @@
       </tr>
       <tr *ngIf="user.role === 'seller'">
         <td>Certification</td>
-        <td>{{ user.certification ? 'yes' : 'no' }}</td>
+        <td>{{ user.certification?.taxNumber ? 'yes' : 'no' }}</td>
       </tr>
       <tr>
         <td>Email</td>

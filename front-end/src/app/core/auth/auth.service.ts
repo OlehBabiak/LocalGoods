@@ -55,8 +55,8 @@ export class AuthService {
         catchError(this.errorService.handleError),
         tap(({ data }) => {
           this.handleAuth(
-            data?.email,
             data?.id,
+            data?.email,
             data?.role,
             data?.name,
             data?.accessToken,

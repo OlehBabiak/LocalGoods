@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit {
 
   hasPermission(item: HeaderNavItem): boolean {
     return (
-      item.role === '' || (item.role === this.user.role && this.isUserAuth)
+      item.role === '' || (item.role === this.user?.role && this.isUserAuth)
     );
   }
 }
