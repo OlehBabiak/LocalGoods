@@ -23,6 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    console.log('req', request)
     return this.store.select('userData').pipe(
       take(1),
       exhaustMap((state: UserState) => {
@@ -35,6 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
             'Access-Control-Allow-Origin': '*',
           }),
         });
+        console.log(modifiedReq)
         return next.handle(modifiedReq);
       })
     );

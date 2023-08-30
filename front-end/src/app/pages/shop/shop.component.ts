@@ -60,6 +60,7 @@ export class ShopComponent implements OnInit {
     this.products$ = this.shopService.getProducts().pipe(
       tap((response) => (this.length = response.data?.otherProducts.length)),
       map((response) => {
+        console.log(response.data?.otherProducts)
         return response.data?.otherProducts;
       })
     );
